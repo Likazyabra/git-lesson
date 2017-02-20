@@ -13,7 +13,8 @@ while j >= 0:
 print(lst)
 
 # Это я погорячилась :)
-"""lst = [11, 2, 3, 8, 14, 89, 45]
+"""
+lst = [11, 2, 3, 8, 14, 89, 45]
 len_lst = len(lst) - 1
 j = len_lst
 
@@ -32,4 +33,5 @@ while i <= len_lst:
     lst[i] = int(float(lst[i]))
     i += 1
     
-print(lst)"""
+print(lst)
+"""
