@@ -1,6 +1,5 @@
 import sys
 from diary_case import storage
-from datetime import datetime
 
 
 conn = storage.connect()
@@ -18,11 +17,11 @@ def add_task():
 
 
 def edit_task():
-    storage.edit_task(conn)
+    print('\nЗадача номер {} отредактирована'.format(storage.edit_task(conn)))
 
 
 def delete_task():
-    storage.delete_task(conn)
+    print('Уделана задача с номером {}'.format(delete_task))
 
 
 def close_task():

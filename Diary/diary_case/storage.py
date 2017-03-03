@@ -16,7 +16,6 @@ def dict_factory(cursor, row):
     return d
 
 
-
 def connect(db_name=None):
     if db_name is None:
         db_name = ':diary:'
@@ -27,25 +26,23 @@ def connect(db_name=None):
     return conn
 
 
-
 def initialize(conn):
 
     with conn:
 
         cursor = conn.executescript('''
-         CREATE TABLE IF NOT EXISTS task (
-            id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
-            title TEXT NOT NULL ,
-            body TEXT NOT NULL DEFAULT '',
-            runtime DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
-            status TEXT NOT NULL DEFAULT 'Open'
-        )
+             CREATE TABLE IF NOT EXISTS task (
+                id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+                title TEXT NOT NULL ,
+                body TEXT NOT NULL DEFAULT '',
+                runtime DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+                status TEXT NOT NULL DEFAULT 'Open'
+             )
         ''')
 
 
 def print_task(task):
     print('{task[id]} - {task[title]} - {task[body]} - {task[runtime]} - {task[status]}'.format(task=task))
-
 
 
 def find_all(conn):
@@ -63,13 +60,12 @@ def input_date(id=0):
                 input('Введите дату и время выполнения в формате "гггг-мм-дд чч:мм" : ')
         )
     else:
-        task = (int(input('Введите номер задачи: ')),
+        task = (int(input('Введите новый номер задачи: ')),
                 input('Введите название задачи: '),
                 input('Введите текст задачи: '),
                 input('Введите дату и время выполнения в формате "гггг-мм-дд чч:мм" : '),
                 id
         )
-
     return task
 
 
@@ -90,8 +86,7 @@ def edit_task(conn):
     UPDATE task SET id = ?, title = ?, body = ?, runtime = ? WHERE id = ?
     ''', input_date(current_task['id']))
 
-    print('\nЗадача отредактирована')
-
+    return cursor.lastrowid
 
 
 def delete_task(conn):
@@ -102,8 +97,7 @@ def delete_task(conn):
     DELETE FROM task WHERE id = ?
     ''', (task['id'],))
 
-    print('Уделана задача с номером {}'.format(task['id']))
-
+    return task['id']
 
 
 def close_task(conn):
@@ -116,7 +110,6 @@ def close_task(conn):
     print('\nЗадача {} закрыта'.format(current_task['id']))
 
 
-
 def open_task(conn):
 
     current_task = find_task_by_id(conn)
@@ -125,7 +118,6 @@ def open_task(conn):
     ''', (current_task['id'],))
 
     print('\nЗадача {} открыта'.format(current_task['id']))
-
 
 
 def find_task_by_id(conn):
@@ -139,8 +131,6 @@ def find_task_by_id(conn):
         #    print('Задача с номером {} не найдена'.format(task_id))
         #else:
         return cursor.fetchone()
-
-
 
 
 
