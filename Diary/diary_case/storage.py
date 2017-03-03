@@ -122,7 +122,7 @@ def open_task(conn):
 
 def find_task_by_id(conn):
 
-    task_id = int(input('Введине номер задачи: '))
+    task_id = int(input('Введите номер задачи: '))
 
     with conn:
         cursor = conn.execute(SQL_SELECT + ' WHERE id = ?', (task_id,))
