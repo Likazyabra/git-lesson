@@ -11,25 +11,33 @@ def show_tasklist():
     for task in tasks:
         storage.print_task(task)
 
+# декоратор
+def print_message(func):
+    def wrapper(*args, **kwargs):
+        result = func()
+        print('{} задача с номером {}'.format(result[0], result[1]))
+    return wrapper
 
+@print_message
 def add_task():
-    print('\nСоздана задача с номером {}'.format(storage.add_task(conn)))
+    return 'Добавлена', storage.add_task(conn)
 
-
+@print_message
 def edit_task():
-    print('\nЗадача номер {} отредактирована'.format(storage.edit_task(conn)))
+    return 'Отредактирована', storage.edit_task(conn)
 
 
+@print_message
 def delete_task():
-    print('Уделана задача с номером {}'.format(delete_task))
+    return 'Удалена', storage.delete_task(conn)
 
-
+@print_message
 def close_task():
-    storage.close_task(conn)
+    return 'Закрыта', storage.close_task(conn)
 
-
+@print_message
 def open_task():
-     storage.open_task(conn)
+    return 'Открыта', storage.open_task(conn)
 
 
 def action_show_menu():
@@ -48,6 +56,7 @@ def action_show_menu():
 
 
 def  action_exit():
+    conn.close()
     sys.exit(0)
 
 

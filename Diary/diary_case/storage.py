@@ -61,9 +61,9 @@ def input_date(id=0):
         )
     else:
         task = (int(input('Введите новый номер задачи: ')),
-                input('Введите название задачи: '),
-                input('Введите текст задачи: '),
-                input('Введите дату и время выполнения в формате "гггг-мм-дд чч:мм" : '),
+                input('Введите новое название задачи: '),
+                input('Введите новый текст задачи: '),
+                input('Введите новую дату и время выполнения в формате "гггг-мм-дд чч:мм" : '),
                 id
         )
     return task
@@ -82,11 +82,11 @@ def edit_task(conn):
     current_task = find_task_by_id(conn)
     print_task(current_task)
 
-    conn.execute('''
+    cursor = conn.execute('''
     UPDATE task SET id = ?, title = ?, body = ?, runtime = ? WHERE id = ?
     ''', input_date(current_task['id']))
 
-    return cursor.lastrowid
+    return current_task['id']
 
 
 def delete_task(conn):
@@ -107,7 +107,7 @@ def close_task(conn):
     UPDATE task SET status = 'Close' WHERE id = ?
     ''', (current_task['id'],))
 
-    print('\nЗадача {} закрыта'.format(current_task['id']))
+    return current_task['id']
 
 
 def open_task(conn):
@@ -117,7 +117,7 @@ def open_task(conn):
     UPDATE task SET status = 'Open' WHERE id = ?
     ''', (current_task['id'],))
 
-    print('\nЗадача {} открыта'.format(current_task['id']))
+    return current_task['id']
 
 
 def find_task_by_id(conn):
@@ -127,7 +127,7 @@ def find_task_by_id(conn):
     with conn:
         cursor = conn.execute(SQL_SELECT + ' WHERE id = ?', (task_id,))
 
-        #if not cursor:
+        #if not cursor.fetchone():
         #    print('Задача с номером {} не найдена'.format(task_id))
         #else:
         return cursor.fetchone()
