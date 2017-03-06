@@ -33,11 +33,11 @@ def delete_task():
 
 @print_message
 def close_task():
-    return 'Закрыта', storage.close_task(conn)
+    return 'Закрыта', storage.change_task_status(conn, 'Close')
 
 @print_message
 def open_task():
-    return 'Открыта', storage.open_task(conn)
+    return 'Открыта', storage.change_task_status(conn, 'Open')
 
 
 def action_show_menu():

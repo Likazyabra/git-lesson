@@ -99,23 +99,12 @@ def delete_task(conn):
 
     return task['id']
 
-
-def close_task(conn):
-
-    current_task = find_task_by_id(conn)
-    conn.execute('''
-    UPDATE task SET status = 'Close' WHERE id = ?
-    ''', (current_task['id'],))
-
-    return current_task['id']
-
-
-def open_task(conn):
+def change_task_status(conn, status):
 
     current_task = find_task_by_id(conn)
     conn.execute('''
-    UPDATE task SET status = 'Open' WHERE id = ?
-    ''', (current_task['id'],))
+    UPDATE task SET status = ? WHERE id = ?
+    ''', (status, current_task['id']))
 
     return current_task['id']
 
