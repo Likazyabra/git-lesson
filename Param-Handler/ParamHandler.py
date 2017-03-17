@@ -14,7 +14,7 @@ class ParamHandler(metaclass=ABCMeta):
     def add_type(cls, name, klass):
         if not name:
             raise ParamHandlerException('Type must have a name!')
-        if not isinstance(klass, ParamHandler):
+        if not issubclass(klass, ParamHandler):
             raise ParamHandlerException('Class "{}" is not ParamHandler!'.format(klass)
         )
 
@@ -56,6 +56,7 @@ class PickleParamHandler(ParamHandler):
 
 
 ParamHandler.add_type('pickle', PickleParamHandler)
+ParamHandler.add_type('json', JsonParamHandler)
 
 config = ParamHandler.get_instance('./datafile.pickle')
 config.add_param('data', '{"users": [{"id": 1, "name": "Vasya"}, {"id": 2, "name": "Kolya"}]}')
